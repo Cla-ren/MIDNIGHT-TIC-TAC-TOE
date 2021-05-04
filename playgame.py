@@ -37,16 +37,10 @@ def game_mode():
 # Asks for player's name.
 # enter_name()
 
-def cpu():
-    return
-
 def display_board():
     print(board[0] + "|" + board[1] + "|" + board[2])
     print(board[3] + "|" + board[4] + "|" + board[5])
     print(board[6] + "|" + board[7] + "|" + board[8])
-
-def pick_random():
-    return
 
 def play_game():
     display_board()
@@ -72,23 +66,15 @@ def select_position(current_symbol):
 
     position = int(position) - 1
 
-    board[position] = current_symbol
-    display_board()
-
     valid_move = False
     while not valid_move:
-
-        while position not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
-            position = input("Choose a position from 1-9: ")
-        position = int(position) - 1
-
         if board[position] == " ":
             valid_move = True
         else:
             print("You can't go there. Go again.")
 
-#    board[position] = current_player
-#    display_board()
+    board[position] = current_symbol
+    display_board()
 
 def check_game_over():
     check_winner()
@@ -195,6 +181,11 @@ print("1. Single player")
 print("2. Multiplayer")
 
 game_mode()
+
+if single_player == True:
+    print("Single player mode")
+elif single_player == False:
+    print("Multiplayer mode.")
 
 #   For testing.
 #   print(single_player)
