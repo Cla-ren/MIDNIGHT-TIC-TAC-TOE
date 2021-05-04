@@ -1,58 +1,43 @@
-#TIC TAC TOE
+# TIC TAC TOE
 
-board: list[str] = [" "," "," ",
-                    " "," "," ",
-                    " "," "," "]
+board: list[str] = [" ", " ", " ",
+                    " ", " ", " ",
+                    " ", " ", " "]
 
-possible_moves = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-game_in_progress = True
-winner = None
-current_player = "X"
-
-default = "player_1"
-player_name = default
+current_symbol = "X"
+current_player = "player_1"
 
 single_player = True
-
-print("***Midnight TIC TAC TOE***")
+game_in_progress = True
+winner = None
 
 def enter_name():
-    global player_name
-    name = input("Enter your name: ")
-    player_name = name
+    global current_player
 
+    name = input("Enter your name: ")
+    current_player = name
+
+#   Chooses between single player and multiplayer mode.
 def game_mode():
     global single_player
 
     mode = input("Select 1 or 2: ")
     mode = int(mode)
 
+    while mode not in (1, 2):
+        mode = input("Enter a valid input: ")
+        mode = int(mode)
+
     if mode == 1:
-       single_player = True
+        single_player = True
     elif mode == 2:
         single_player = False
-    else:
-        while mode != 1 or 2:
-            mode = input("Enter a valid input: ")
-            mode = int(mode)
     return
 
-#Asks for player's name.
-#enter_name()
-
-print("GAME MODES")
-print("1. Single player")
-print("2. Multiplayer")
-
-
-
-game_mode()
-
-print(single_player)
+# Asks for player's name.
+# enter_name()
 
 def cpu():
-
     return
 
 def display_board():
@@ -64,11 +49,10 @@ def pick_random():
     return
 
 def play_game():
-
     display_board()
 
     while game_in_progress:
-        select_position(current_player)
+        select_position(current_symbol)
         check_game_over()
         next_player()
 
@@ -77,30 +61,39 @@ def play_game():
     elif winner == None:
         print("Tie.")
 
-def select_position(current_player):
+def select_position(current_symbol):
     print(current_player + "'s turn.")
     position = input("Choose a position from 1-9: ")
-#    position = int(position)-1
+    position = int(position)
 
-    valid = False
-    while not valid:
+    while position not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+        position = input("Choose a position from 1-9: ")
+        position = int(position)
 
-        while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+    position = int(position) - 1
+
+    board[position] = current_symbol
+    display_board()
+
+    valid_move = False
+    while not valid_move:
+
+        while position not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
             position = input("Choose a position from 1-9: ")
-
         position = int(position) - 1
 
         if board[position] == " ":
-            valid = True
+            valid_move = True
         else:
             print("You can't go there. Go again.")
 
-    board[position] = current_player
-    display_board()
+#    board[position] = current_player
+#    display_board()
 
 def check_game_over():
     check_winner()
     check_tie()
+
 
 def check_winner():
     global winner
@@ -118,7 +111,6 @@ def check_winner():
     else:
         winner = None
     return
-
 
 def check_rows():
     global game_in_progress
@@ -181,12 +173,30 @@ def check_tie():
 
 def next_player():
     global current_player
+    global current_symbol
 
-    if current_player == "X":
-        current_player = "O"
-    elif current_player == "O":
-        current_player = "X"
+    if current_symbol == "X":
+        current_symbol = "O"
+        current_player = "player_2"
+    elif current_symbol == "O":
+        current_symbol = "X"
+        current_player = "player_1"
     return
 
-play_game()
+#   The following lines of code is meant to run the game.
+#
+#
+#
 
+print("***Midnight TIC TAC TOE***")
+
+print("GAME MODES")
+print("1. Single player")
+print("2. Multiplayer")
+
+game_mode()
+
+#   For testing.
+#   print(single_player)
+
+play_game()
